@@ -24,11 +24,11 @@
   
   /* aside {
     width: 25%;
-    padding: 15px;
+    padding: 0px;
   } */
   
   main {
-    width: 75%;
+    width: 100%;
     padding: 0 15px;
   }
   
@@ -110,10 +110,10 @@
     border-radius: 7px;
   }
   
-  #main-container {
+  /* #main-container {
     display: flex;
     flex-direction: row;
-  }
+  } */
   
   #future-forecast .card {
     background-color: var(--cyan);
@@ -123,7 +123,7 @@
     width: 20%;
   }
   
-  #saved-cities {
+  /* #saved-cities {
     margin-top: 5px;
     border-top: 2px solid var(--cyan);
     padding-top: 5px;
@@ -133,14 +133,14 @@
     background-color: #ffecb3;
     background-image: none;
     color: var(--cyan);
-  }
+  } */
   
-  #card-container {
+  /* #card-container #weather-container {
     display: flex;
     flex-direction: row;
-  }
+  } */
   
-  @media screen and (max-width: 1083px) {
+  /* @media screen and (max-width: 1083px) {
     aside,
     main {
       width: 100%;
@@ -160,4 +160,4 @@
       margin: 5px;
       width: 100%;
     }
-  }
+  } */

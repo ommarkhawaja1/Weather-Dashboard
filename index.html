@@ -11,24 +11,39 @@
     <title>Weather-Dashboard</title>
 </head>
 
-<main class="flex-row justify-space-between">
-    <div class="col-12 col-md-4">
-        <div class="card">
-            <h2 class="card-header text-uppercase">Search a City</h2>
-            <form id="weather-form" class="card-body">
-                <label class="form-label" for="city"></label>
-                <input name="city" id="city" type="text" autofocus="true" class="form-input" />
-                <button type="submit" id="submit" class="btn">Search</button>
-            </form>
+<header class="p-3">
+    <h1>Weather Dashboard</h1>
+</header>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-5">
+            <div class="card">
+                <h2 class="card-header text-uppercase">Search a City</h2>
+                <form id="weather-form" class="card-body">
+                    <label class="form-label" for="city"></label>
+                    <input name="city" id="city" type="text" autofocus="true" class="form-input" />
+                    <button type="submit" id="submit" class="btn">Search</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-sm-12 col-md-6">
+            <div class="card">
+                <h2 class="subtitle">Showing Weather for:</h2>
+                <div id="weather-container" class="list-group"></div>
+                <!-- dynamically create current day weather -->
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-12">
+            <div id="future-forecast">
+                <h3 id="future-header"></h3>
+                <div id="card-container"></div>
+                <!-- dynamically create 5 day forecast -->
+            </div>
         </div>
     </div>
-    <div class="col-12 col-md-6">
-        <div class="card">
-            <h2 class="subtitle">Showing Weather for:</h2>
-            <div id="weather-container" class="list-group"></div>
-        </div>
-    </div>
-</main>
+</div>
 
 
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

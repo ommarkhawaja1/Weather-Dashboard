@@ -1,14 +1,3 @@
-// WHEN I search for a city
-// THEN I am presented with current and future conditions for that city and that city is added to the search history
-// WHEN I view current weather conditions for that city
-// THEN I am presented with the city name, the date, an icon representation of weather conditions, the temperature, the humidity, the wind speed, and the UV index
-// WHEN I view the UV index
-// THEN I am presented with a color that indicates whether the conditions are favorable, moderate, or severe
-// WHEN I view future weather conditions for that city
-// THEN I am presented with a 5-day forecast that displays the date, an icon representation of weather conditions, the temperature, the wind speed, and the humidity
-// WHEN I click on a city in the search history
-// THEN I am again presented with current and future conditions for that city
-
 // step 1 click button, event, grab text from text box, pass through query string to open weather api. Get response back from form
 // step 2 paarse data and display it with city name, date, icon, temp, wind, humidity, uv index
 // step 3 5 day forecast separate function that will call a for loop and create a card with formatted date, icon, and values
@@ -28,16 +17,13 @@ var formSubmitHandler = function (event) {
   var city = cityInput.value.trim()
 
   if (city) {
-      searchCity(city);
+    searchCity(city);
 
-      // clear old content
-      cityInput.value = "";
   } else {
-      alert("Please enter a city name")
+    alert("Please enter a city name")
   }
-  console.log(event);
-};
 
+};
 
 var searchCity = function (city) {
   // format the github api url
@@ -45,73 +31,130 @@ var searchCity = function (city) {
 
   // make a request to the url
   fetch(locationApiUrl)
-  .then(function (response) {
-    return response.json();
-  })
-  .then(function (data) {
-    var lat = data[0].lat;
-    var lon = data[0].lon;
-    console.log(lat, lon)
-    getCityWeather(lat, lon);
-  });
-
-  
-function getCityWeather (lat, lon) {
-  // format the github api url
-  var weatherApiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" +lon + "&units=imperial&exclude=minutely,hourly&appid=e0090736d1a7d7d3d3989801cd196bfa"
-  console.log(weatherApiUrl)
-  // make a request to the url
-  fetch(weatherApiUrl)
-  .then(function (response) {
-    return response.json();
+    .then(function (response) {
+      return response.json();
     })
     .then(function (data) {
-      var currentData = data.current;
-      var dailyData = data.daily;
-      console.log(currentData, dailyData)
-      displayWeather(currentData, dailyData)
+      var lat = data[0].lat;
+      var lon = data[0].lon;
+      console.log(lat, lon)
+      getCityWeather(lat, lon);
     });
+
+
+  function getCityWeather(lat, lon) {
+    // format the github api url
+    var weatherApiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&units=imperial&exclude=minutely,hourly&appid=e0090736d1a7d7d3d3989801cd196bfa"
+    console.log(weatherApiUrl)
+    // make a request to the url
+    fetch(weatherApiUrl)
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (data) {
+        var currentData = data.current;
+        var dailyData = data.daily;
+        console.log(currentData, dailyData)
+        displayWeather(currentData, dailyData)
+      });
   }
 };
 
-function displayWeather (currentData, dailyData) {
- //create children for current info card
- var cardBodyEl = $("#weather-container")
-  
+function displayWeather(currentData, dailyData) {
+  //create children for current info card
+  var cardBodyEl = $("#weather-container")
 
-cardBodyEl.append(cityInput.value.trim())
+  cardBodyEl.append(cityInput.value.trim())
+  cityInput.value = '';
 
- //create and append icon
- var iconCode = currentData.weather[0].icon;
- var iconLocation = "./assets/images/" + iconCode + ".png";
- var currentCloudEl = $("<img>")
-   .addClass("current-icon")
-   .attr("src", iconLocation);
- cardBodyEl.append(currentCloudEl);
- //create and append temperature
- var currentTempEl = $("<p>").text("Temperature: " + currentData.temp + " °F");
- cardBodyEl.append(currentTempEl);
- //create and append wind speed
- var currentWindEl = $("<p>").text("Wind: " + currentData.wind_speed + " MPH");
- cardBodyEl.append(currentWindEl);
- //create and append humidity
- var currentHumidityEl = $("<p>").text(
-   "Humidity: " + currentData.humidity + "%"
- );
- cardBodyEl.append(currentHumidityEl);
- //create and append uvi
- var currentUviEl = $("<p>").text("UV Index: ");
- var uviSpanEl = $("<span>").text(currentData.uvi);
- if (currentData.uvi < 3.33) {
-   uviSpanEl.addClass('favorable');
- } else if (currentData.uvi > 6.66) {
-   uviSpanEl.addClass('severe');
- } else {
-   uviSpanEl.addClass('moderate');
- }
- currentUviEl.append(uviSpanEl);
- cardBodyEl.append(currentUviEl);
+  //create and append icon
+  var iconCode = currentData.weather[0].icon;
+  var iconLocation = "./assets/images/" + iconCode + ".png";
+  var currentCloudEl = $("<img>")
+    .addClass("current-icon")
+    .attr("src", iconLocation);
+  cardBodyEl.append(currentCloudEl);
+  //create and append temperature
+  var currentTempEl = $("<p>").text("Temperature: " + currentData.temp + " °F");
+  cardBodyEl.append(currentTempEl);
+  //create and append wind speed
+  var currentWindEl = $("<p>").text("Wind: " + currentData.wind_speed + " MPH");
+  cardBodyEl.append(currentWindEl);
+  //create and append humidity
+  var currentHumidityEl = $("<p>").text(
+    "Humidity: " + currentData.humidity + "%"
+  );
+  cardBodyEl.append(currentHumidityEl);
+  //create and append uvi
+  var currentUviEl = $("<p>").text("UV Index: ");
+  var uviSpanEl = $("<span>").text(currentData.uvi);
+  if (currentData.uvi < 3.33) {
+    uviSpanEl.addClass('favorable');
+  } else if (currentData.uvi > 6.66) {
+    uviSpanEl.addClass('severe');
+  } else {
+    uviSpanEl.addClass('moderate');
+  }
+  currentUviEl.append(uviSpanEl);
+  cardBodyEl.append(currentUviEl);
+
+  //create the header for the future container
+  $("#future-header").text("5-Day Forecast:");
+  //create cards for the next 5 days
+  for (var i = 1; i < 6; i++) {
+    dayData = dailyData[i];
+    var cardContainerEl = $("#card-container");
+    var dayCardEl = $("<div>").addClass("card");
+    var dayCardBodyEl = $("<div>").addClass("card-body");
+    //add title for date
+    var cardTitleEl = $("<h4>")
+      .addClass("card-title")
+      .text(moment().add(i, "days").format("MM[/]DD[/]YY"));
+  }
 }
+
+// //create the header for the future container
+// $("#future-header").text("5-Day Forecast:");
+// //empty card container
+// $("#card-container").text("");
+// //create cards for the next 5 days
+// for (var i = 1; i < 6; i++) {
+//   dayData = dailyData[i];
+//   var cardContainerEl = $("#card-container");
+//   var dayCardEl = $("<div>").addClass("card");
+//   var dayCardBodyEl = $("<div>").addClass("card-body");
+//   //add title for date
+//   var cardTitleEl = $("<h4>")
+//     .addClass("card-title")
+//     .text(moment().add(i, "days").format("MM[/]DD[/]YY"));
+//   dayCardBodyEl.append(cardTitleEl);
+//   //add weather icon
+//   var iconCode = dayData.weather[0].icon;
+//   var iconLocation = "./assets/images/" + iconCode + ".png";
+//   var dayCloudEl = $("<img>")
+//     .addClass("card-icon card-text")
+//     .attr("src", iconLocation);
+//   dayCardBodyEl.append(dayCloudEl);
+//   //add card text for temp
+//   var dayTempEl = $("<p>")
+//     .addClass("card-text")
+//     .text("Temp: " + dayData.temp.day + " °F");
+//   dayCardBodyEl.append(dayTempEl);
+//   //add card text for wind_speed
+//   var dayWindEl = $("<p>")
+//     .addClass("card-text")
+//     .text("Wind: " + dayData.wind_speed + " MPH");
+//   dayCardBodyEl.append(dayWindEl);
+//   //add card text for humidity
+//   var dayHumidityEl = $("<p>")
+//     .addClass("card-text")
+//     .text("Humidity: " + dayData.humidity + "%");
+//   dayCardBodyEl.append(dayHumidityEl);
+//   //append the whole card
+//   dayCardEl.append(dayCardBodyEl);
+//   cardContainerEl.append(dayCardEl);
+// }
+
 
 
 weatherForm.addEventListener("submit", formSubmitHandler);
