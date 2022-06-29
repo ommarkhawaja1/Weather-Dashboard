@@ -61,10 +61,11 @@ var searchCity = function (city) {
 };
 
 function displayWeather(currentData, dailyData) {
+  $("#daily-weather").text("")
   //create children for current info card
-  var cardBodyEl = $("#weather-container")
-
+  var cardBodyEl = $("#daily-weather")
   cardBodyEl.append(cityInput.value.trim())
+  
   cityInput.value = '';
 
   //create and append icon
@@ -100,6 +101,8 @@ function displayWeather(currentData, dailyData) {
 
   //create the header for the future container
   $("#future-header").text("5-Day Forecast:");
+  // empty card container
+  $("#card-container").text("");
   //create cards for the next 5 days
   for (var i = 1; i < 6; i++) {
     dayData = dailyData[i];
@@ -110,50 +113,34 @@ function displayWeather(currentData, dailyData) {
     var cardTitleEl = $("<h4>")
       .addClass("card-title")
       .text(moment().add(i, "days").format("MM[/]DD[/]YY"));
+    dayCardBodyEl.append(cardTitleEl);
+    //add weather icon
+    var iconCode = dayData.weather[0].icon;
+    var iconLocation = "./assets/images/" + iconCode + ".png";
+    var dayCloudEl = $("<img>")
+      .addClass("card-icon card-text")
+      .attr("src", iconLocation);
+    dayCardBodyEl.append(dayCloudEl);
+    //add card text for temp
+    var dayTempEl = $("<p>")
+      .addClass("card-text")
+      .text("Temp: " + dayData.temp.day + " °F");
+    dayCardBodyEl.append(dayTempEl);
+    //add card text for wind_speed
+    var dayWindEl = $("<p>")
+      .addClass("card-text")
+      .text("Wind: " + dayData.wind_speed + " MPH");
+    dayCardBodyEl.append(dayWindEl);
+    //add card text for humidity
+    var dayHumidityEl = $("<p>")
+      .addClass("card-text")
+      .text("Humidity: " + dayData.humidity + "%");
+    dayCardBodyEl.append(dayHumidityEl);
+    //append the whole card
+    dayCardEl.append(dayCardBodyEl);
+    cardContainerEl.append(dayCardEl);
   }
 }
-
-// //create the header for the future container
-// $("#future-header").text("5-Day Forecast:");
-// //empty card container
-// $("#card-container").text("");
-// //create cards for the next 5 days
-// for (var i = 1; i < 6; i++) {
-//   dayData = dailyData[i];
-//   var cardContainerEl = $("#card-container");
-//   var dayCardEl = $("<div>").addClass("card");
-//   var dayCardBodyEl = $("<div>").addClass("card-body");
-//   //add title for date
-//   var cardTitleEl = $("<h4>")
-//     .addClass("card-title")
-//     .text(moment().add(i, "days").format("MM[/]DD[/]YY"));
-//   dayCardBodyEl.append(cardTitleEl);
-//   //add weather icon
-//   var iconCode = dayData.weather[0].icon;
-//   var iconLocation = "./assets/images/" + iconCode + ".png";
-//   var dayCloudEl = $("<img>")
-//     .addClass("card-icon card-text")
-//     .attr("src", iconLocation);
-//   dayCardBodyEl.append(dayCloudEl);
-//   //add card text for temp
-//   var dayTempEl = $("<p>")
-//     .addClass("card-text")
-//     .text("Temp: " + dayData.temp.day + " °F");
-//   dayCardBodyEl.append(dayTempEl);
-//   //add card text for wind_speed
-//   var dayWindEl = $("<p>")
-//     .addClass("card-text")
-//     .text("Wind: " + dayData.wind_speed + " MPH");
-//   dayCardBodyEl.append(dayWindEl);
-//   //add card text for humidity
-//   var dayHumidityEl = $("<p>")
-//     .addClass("card-text")
-//     .text("Humidity: " + dayData.humidity + "%");
-//   dayCardBodyEl.append(dayHumidityEl);
-//   //append the whole card
-//   dayCardEl.append(dayCardBodyEl);
-//   cardContainerEl.append(dayCardEl);
-// }
 
 
 

@@ -22,10 +22,10 @@
     color: var(--yellow);
   }
   
-  /* aside {
+  aside {
     width: 25%;
     padding: 0px;
-  } */
+  }
   
   main {
     width: 100%;
@@ -50,7 +50,6 @@
   
   h2 {
     font-size: 30px;
-    font-size: 28px;
   }
   
   h3 {
@@ -68,6 +67,9 @@
     border: 3px solid var(--cyan);
     border-radius: 7px;
     margin: 15px 0;
+  }
+  #card-container{
+    display: flex;
   }
   
   .favorable {
@@ -110,10 +112,11 @@
     border-radius: 7px;
   }
   
-  /* #main-container {
+  .main-container{
     display: flex;
     flex-direction: row;
-  } */
+  }
+
   
   #future-forecast .card {
     background-color: var(--cyan);
@@ -135,29 +138,3 @@
     color: var(--cyan);
   } */
   
-  /* #card-container #weather-container {
-    display: flex;
-    flex-direction: row;
-  } */
-  
-  /* @media screen and (max-width: 1083px) {
-    aside,
-    main {
-      width: 100%;
-    }
-  
-    #main-container {
-      flex-direction: column;
-    }
-  }
-  
-  @media screen and (max-width: 812px) {
-    #card-container {
-      flex-direction: column;
-    }
-  
-    #future-forecast .card {
-      margin: 5px;
-      width: 100%;
-    }
-  } */
