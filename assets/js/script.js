@@ -8,6 +8,9 @@ var weatherApiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat={lat}&l
 
 var weatherForm = document.querySelector("#weather-form");
 var cityInput = document.querySelector("#city");
+var cityButtons = document.querySelector('.city-button')
+var existingEntries = JSON.parse(localStorage.getItem("allEntries")) || [];
+var existingCity = []
 
 
 var formSubmitHandler = function (event) {
@@ -18,6 +21,7 @@ var formSubmitHandler = function (event) {
 
   if (city) {
     searchCity(city);
+    saveCity(city)
 
   } else {
     alert("Please enter a city name")
@@ -142,6 +146,37 @@ function displayWeather(currentData, dailyData) {
   }
 }
 
+  // Populate the citybuttons list
+  for (i = 0; i < existingEntries.length; i++) {
+    existingCity[i] = document.createElement("button")
+    existingCity[i].innerHTML = existingEntries[i]
+    existingCity[i].setAttribute('class', 'city-button btn btn-secondary btn-block')
+    existingCity[i].setAttribute('data-searchterm', existingEntries[i])
+    weatherForm.appendChild(existingCity[i])
+  }
+
+//save the city to the citybuttons list 
+function saveCity(city) {
+    if (!existingEntries.includes(city)) { 
+        existingEntries.push(city)
+        localStorage.setItem("allEntries", JSON.stringify(existingEntries));
+        var newCityButton = document.createElement("button")
+        newCityButton.setAttribute('class','city-button btn btn-secondary btn-block')
+        newCityButton.setAttribute('data-searchterm', city)
+        newCityButton.innerHTML = city
+        weatherForm.appendChild(newCityButton)
+    }
+}
 
 
+// //transforms user's click on the citybutton into a value that can be passed to getapi function
+// function handleSearchHistoryClick(event) {
+//   if (event.target.matches('.city-button')) {
+//     var button = event.target;
+//     var searchTerm = button.getAttribute('data-searchterm');
+//     searchCity(searchTerm);
+//   }
+// }
+
+// cityButtons.addEventListener('click', handleSearchHistoryClick);
 weatherForm.addEventListener("submit", formSubmitHandler);
