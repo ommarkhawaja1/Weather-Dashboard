@@ -8,7 +8,6 @@ var weatherApiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat={lat}&l
 
 var weatherForm = document.querySelector("#weather-form");
 var cityInput = document.querySelector("#city");
-var cityButtons = document.querySelector('.city-button')
 var existingEntries = JSON.parse(localStorage.getItem("allEntries")) || [];
 var existingCity = []
 
@@ -168,15 +167,15 @@ function saveCity(city) {
     }
 }
 
+//transforms user's click on the citybutton into a value that can be passed to getapi function
+function handleSearchHistoryClick(event) {
+  if (event.target.matches('.city-button')) {
+    var button = event.target;
+    var searchTerm = button.getAttribute('data-searchterm');
+    searchCity(searchTerm);
+  }
+}
 
-// //transforms user's click on the citybutton into a value that can be passed to getapi function
-// function handleSearchHistoryClick(event) {
-//   if (event.target.matches('.city-button')) {
-//     var button = event.target;
-//     var searchTerm = button.getAttribute('data-searchterm');
-//     searchCity(searchTerm);
-//   }
-// }
-
-// cityButtons.addEventListener('click', handleSearchHistoryClick);
+var cityButtons = document.querySelector('.city-button')
+cityButtons.addEventListener('click', handleSearchHistoryClick);
 weatherForm.addEventListener("submit", formSubmitHandler);
