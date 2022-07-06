@@ -152,6 +152,8 @@ function displayWeather(currentData, dailyData) {
     existingCity[i].setAttribute('class', 'city-button btn btn-secondary btn-block')
     existingCity[i].setAttribute('data-searchterm', existingEntries[i])
     weatherForm.appendChild(existingCity[i])
+  var cityButtons = document.querySelector('.city-button')
+
   }
 
 //save the city to the citybuttons list 
@@ -176,6 +178,5 @@ function handleSearchHistoryClick(event) {
   }
 }
 
-var cityButtons = document.querySelector('.city-button')
 cityButtons.addEventListener('click', handleSearchHistoryClick);
 weatherForm.addEventListener("submit", formSubmitHandler);

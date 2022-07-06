@@ -39,7 +39,7 @@
   }
   
   button {
-    margin: 10px;
+    margin: 5px;
     padding: 5px;
     background-image: linear-gradient(to bottom right, var(--cyan), #2d3c86);
     border: none;
@@ -122,15 +122,4 @@
     width: 20%;
   }
   
-  /* #saved-cities {
-    margin-top: 5px;
-    border-top: 2px solid var(--cyan);
-    padding-top: 5px;
-  }
-  
-  #saved-cities button {
-    background-color: #ffecb3;
-    background-image: none;
-    color: var(--cyan);
-  } */
   
