@@ -1,11 +1,4 @@
-// step 1 click button, event, grab text from text box, pass through query string to open weather api. Get response back from form
-// step 2 paarse data and display it with city name, date, icon, temp, wind, humidity, uv index
-// step 3 5 day forecast separate function that will call a for loop and create a card with formatted date, icon, and values
-// step 4 additional functionality that creates a button with the last city searched. Save in localstorage as recent and it will be
-// an array of strings of all the things that people searched for. When you refresh the page it will go to local storage get array of
-// of strings of cities and render buttons. These buttons will have onclick functionality that will take the text and pass it into the search bar
 var weatherApiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid=e0090736d1a7d7d3d3989801cd196bfa"
-
 var weatherForm = document.querySelector("#weather-form");
 var cityInput = document.querySelector("#city");
 var existingEntries = JSON.parse(localStorage.getItem("allEntries")) || [];
@@ -21,11 +14,14 @@ var formSubmitHandler = function (event) {
   if (city) {
     searchCity(city);
     saveCity(city)
-
-  } else {
-    alert("Please enter a city name")
   }
 
+  else if (handleSearchHistoryClick) {
+  }
+
+  else {
+    alert("Please enter a city name")
+  }
 };
 
 var searchCity = function (city) {
@@ -41,11 +37,11 @@ var searchCity = function (city) {
       var lat = data[0].lat;
       var lon = data[0].lon;
       console.log(lat, lon)
-      getCityWeather(lat, lon);
+      getCityWeather(lat, lon, city);
     });
 
 
-  function getCityWeather(lat, lon) {
+  function getCityWeather(lat, lon, city) {
     // format the github api url
     var weatherApiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&units=imperial&exclude=minutely,hourly&appid=e0090736d1a7d7d3d3989801cd196bfa"
     console.log(weatherApiUrl)
@@ -58,17 +54,17 @@ var searchCity = function (city) {
         var currentData = data.current;
         var dailyData = data.daily;
         console.log(currentData, dailyData)
-        displayWeather(currentData, dailyData)
+        displayWeather(currentData, dailyData, city)
       });
   }
 };
 
-function displayWeather(currentData, dailyData) {
+function displayWeather(currentData, dailyData, city) {
   $("#daily-weather").text("")
   //create children for current info card
   var cardBodyEl = $("#daily-weather")
-  cardBodyEl.append(cityInput.value.trim())
-  
+  cardBodyEl.append(city)
+
   cityInput.value = '';
 
   //create and append icon
@@ -145,28 +141,26 @@ function displayWeather(currentData, dailyData) {
   }
 }
 
-  // Populate the citybuttons list
-  for (i = 0; i < existingEntries.length; i++) {
-    existingCity[i] = document.createElement("button")
-    existingCity[i].innerHTML = existingEntries[i]
-    existingCity[i].setAttribute('class', 'city-button btn btn-secondary btn-block')
-    existingCity[i].setAttribute('data-searchterm', existingEntries[i])
-    weatherForm.appendChild(existingCity[i])
-  var cityButtons = document.querySelector('.city-button')
-
-  }
+// Populate the citybuttons list
+for (i = 0; i < existingEntries.length; i++) {
+  existingCity[i] = document.createElement("button")
+  existingCity[i].innerHTML = existingEntries[i]
+  existingCity[i].setAttribute('class', 'city-button btn btn-secondary btn-block')
+  existingCity[i].setAttribute('data-searchterm', existingEntries[i])
+  weatherForm.appendChild(existingCity[i])
+}
 
 //save the city to the citybuttons list 
 function saveCity(city) {
-    if (!existingEntries.includes(city)) { 
-        existingEntries.push(city)
-        localStorage.setItem("allEntries", JSON.stringify(existingEntries));
-        var newCityButton = document.createElement("button")
-        newCityButton.setAttribute('class','city-button btn btn-secondary btn-block')
-        newCityButton.setAttribute('data-searchterm', city)
-        newCityButton.innerHTML = city
-        weatherForm.appendChild(newCityButton)
-    }
+  if (!existingEntries.includes(city)) {
+    existingEntries.push(city)
+    localStorage.setItem("allEntries", JSON.stringify(existingEntries));
+    var newCityButton = document.createElement("button")
+    newCityButton.setAttribute('class', 'city-button btn btn-secondary btn-block')
+    newCityButton.setAttribute('data-searchterm', city)
+    newCityButton.innerHTML = city
+    weatherForm.appendChild(newCityButton)
+  }
 }
 
 //transforms user's click on the citybutton into a value that can be passed to getapi function
@@ -178,5 +172,9 @@ function handleSearchHistoryClick(event) {
   }
 }
 
-cityButtons.addEventListener('click', handleSearchHistoryClick);
+var cityButtons = document.querySelectorAll('.city-button')
+cityButtons.forEach(function (currentBtn) {
+  currentBtn.addEventListener('click', handleSearchHistoryClick)
+})
+
 weatherForm.addEventListener("submit", formSubmitHandler);
