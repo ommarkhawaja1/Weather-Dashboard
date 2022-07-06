@@ -26,7 +26,7 @@ var formSubmitHandler = function (event) {
 
 var searchCity = function (city) {
   // format the github api url
-  var locationApiUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=1&appid=e0090736d1a7d7d3d3989801cd196bfa"
+  var locationApiUrl = "https://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=1&appid=e0090736d1a7d7d3d3989801cd196bfa"
 
   // make a request to the url
   fetch(locationApiUrl)
